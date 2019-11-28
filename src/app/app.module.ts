@@ -14,11 +14,14 @@ import { NzUploadModule, NzMessageModule } from 'ng-zorro-antd';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireModule} from '@angular/fire';
-import { MapComponent } from './pages/map/map.component'
+import { MapComponent } from './pages/map/map.component';
+import { AgmCoreModule } from '@agm/core';
+import { AdminComponent } from './pages/admin/admin.component';
+import { HomeComponent } from './pages/home/home.component';
 
 registerLocaleData(sk);
 
-let firebaseConfig = {
+const firebaseConfig = {
   apiKey: 'AIzaSyDaDErFhXPwaxD2eawK8OWG-6fSCdffDys',
   authDomain: 'ftaciky-a27b6.firebaseapp.com',
   databaseURL: 'https://ftaciky-a27b6.firebaseio.com',
@@ -32,7 +35,9 @@ let firebaseConfig = {
   declarations: [
     AppComponent,
     UploadComponent,
-    MapComponent
+    MapComponent,
+    AdminComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,10 @@ let firebaseConfig = {
     NzMessageModule,
     AngularFireStorageModule,
     AngularFirestoreModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AgmCoreModule.forRoot({
+      apiKey: firebaseConfig.apiKey
+    })
   ],
   providers: [{ provide: NZ_I18N, useValue: sk_SK }],
   bootstrap: [AppComponent]

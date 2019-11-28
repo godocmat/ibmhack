@@ -1,1 +1,28 @@
-<router-outlet></router-outlet>
+<nz-layout>
+  <nz-header>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li routerLink="/" nz-menu-item>
+        <i nz-icon nzType="home"></i>
+        <span>Domov</span>
+      </li>
+      <li routerLink="/map" nz-menu-item>
+        <i nz-icon nzType="fund"></i>
+        <span>Mapa stĺpov</span>
+      </li>
+      <li routerLink="/upload" nz-menu-item>
+        <i nz-icon nzType="upload"></i>
+        <span>Nahrať/Odfotiť</span>
+      </li>
+      <li routerLink="/admin" nz-menu-item>
+        <i nz-icon nzType="snippets"></i>
+        <span>Report</span>
+      </li>
+    </ul>
+  </nz-header>
+  <nz-content>
+    <div class="inner-content">
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+  <nz-footer>IBM Hack ©2019 Created by Coffee2Code</nz-footer>
+</nz-layout>
