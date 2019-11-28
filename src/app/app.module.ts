@@ -18,6 +18,7 @@ import { MapComponent } from './pages/map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { AdminComponent } from './pages/admin/admin.component';
 import { HomeComponent } from './pages/home/home.component';
+import { InfoWindowComponent } from './pages/info-window/info-window.component';
 
 registerLocaleData(sk);
 
@@ -37,7 +38,8 @@ const firebaseConfig = {
     UploadComponent,
     MapComponent,
     AdminComponent,
-    HomeComponent
+    HomeComponent,
+    InfoWindowComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,7 @@ const firebaseConfig = {
     AngularFirestoreModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AgmCoreModule.forRoot({
-      apiKey: firebaseConfig.apiKey
+      apiKey: 'AIzaSyDGG0Bf5CUPSUAJoThOiJiy5R9O8TUi9_E'
     })
   ],
   providers: [{ provide: NZ_I18N, useValue: sk_SK }],
