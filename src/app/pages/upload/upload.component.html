@@ -2,8 +2,9 @@
       nzType="drag"
       [nzMultiple]="true"
       [nzLimit]="2"
-      nzAction="https://jsonplaceholder.typicode.com/posts/"
-      (nzChange)="handleChange($event)"
+      nzAction="http://localhost:3005/images"
+      [nzCustomRequest]="customReq"
+      
     >
       <p class="ant-upload-drag-icon">
         <i nz-icon nzType="inbox"></i>

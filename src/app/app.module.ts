@@ -10,9 +10,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import sk from '@angular/common/locales/sk';
 import { UploadComponent } from './pages/upload/upload.component';
-import { NzUploadModule, NzMessageModule } from 'ng-zorro-antd'
+import { NzUploadModule, NzMessageModule } from 'ng-zorro-antd';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireModule} from '@angular/fire';
 
 registerLocaleData(sk);
+
+let firebaseConfig = {
+  apiKey: 'AIzaSyDaDErFhXPwaxD2eawK8OWG-6fSCdffDys',
+  authDomain: 'ftaciky-a27b6.firebaseapp.com',
+  databaseURL: 'https://ftaciky-a27b6.firebaseio.com',
+  projectId: 'ftaciky-a27b6',
+  storageBucket: 'ftaciky-a27b6.appspot.com',
+  messagingSenderId: '279753285207',
+  appId: '1:279753285207:web:e4af9f604ee56d37040d12'
+};
 
 @NgModule({
   declarations: [
@@ -27,7 +40,10 @@ registerLocaleData(sk);
     HttpClientModule,
     BrowserAnimationsModule,
     NzUploadModule,
-    NzMessageModule
+    NzMessageModule,
+    AngularFireStorageModule,
+    AngularFirestoreModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   providers: [{ provide: NZ_I18N, useValue: sk_SK }],
   bootstrap: [AppComponent]

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ftaciky-a27b6": {
+      "hosting": {
+        "IBMHack": [
+          "ftaciky-a27b6"
+        ]
+      }
+    }
+  }
+}

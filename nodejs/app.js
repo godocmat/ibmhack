@@ -11,7 +11,12 @@ const VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3');
 const VisualRecognitionV4 = require('ibm-watson/visual-recognition/v4');
 const { IamAuthenticator } = require('ibm-watson/auth');
 const {Firestore} = require('@google-cloud/firestore');
+var bodyParser = require('body-parser');
 
+/*app.use(bodyParser.urlencoded({
+  extended: true
+}));*/
+app.use(bodyParser.json()); // for parsing application/json
 
 const db = new Firestore({
     projectId: 'ftaciky-a27b6',
@@ -65,22 +70,28 @@ let updateValue = singleImageRef.update({long: 34.344, lat: 35.222, state: 'dama
 /**
  * Endpoint for ANGULAR to retrieve IMAGE_URL
  */
-// app.post('/images', (req, res) => {
-//     const image_url = req.body.image_url;
-//     const classifyParams = {
-//         imagesFile: fs.createReadStream(image_url as URL),
-//         owners: ['me'],
-//         threshold: 0.6,
-//     };
-//     visualRecognition.classify(classifyParams)
-//         .then(response => {
-//             const classifiedImages = response.result;
-//             console.log(JSON.stringify(classifiedImages, null, 2));
-//         })
-//         .catch(err => {
-//             console.log('error:', err);
-//         });
-// });
+ app.post('/images', (req, res) => {
+     //const image_url = req.body.im;
+	 console.log("body");
+	 console.log(req.body);
+	 console.log(req.body.image);
+	 //console.log(req);
+	 //console.log("image");
+	// console.log("req.body.image");
+/*     const classifyParams = {
+         imagesFile: fs.createReadStream(image_url),
+         owners: ['me'],
+         threshold: 0.6,
+     };
+     visualRecognition.classify(classifyParams)
+         .then(response => {
+             const classifiedImages = response.result;
+             console.log(JSON.stringify(classifiedImages, null, 2));
+         })
+         .catch(err => {
+             console.log('error:', err);
+         });*/
+ });
 
 
 /**
@@ -102,7 +113,7 @@ var server = app.listen(3005, function () {
         }),
         url: 'https://gateway-seo.watsonplatform.net/visual-recognition/api',
     });
-
+	console.log("je to tam, bezime live na localhosce na " + server.address().port + "!!!!!");
     const param = {
         name: 'my-collection',
         description: 'A description'
