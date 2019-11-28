@@ -9,8 +9,7 @@
     *ngFor="let m of markers; let i = index"
     [latitude]="m.lat"
     [longitude]="m.lng"
-    [label]="m.label"
-    [markerDraggable]="m.draggable">
+    [label]="m.label">
 
     <agm-info-window>
       <app-info-window></app-info-window>

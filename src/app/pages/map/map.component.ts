@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Pillar} from '../../model/pillar';
-import {Observable} from 'rxjs';
+import {Observable, pipe} from 'rxjs';
+import {flatMap, map, tap} from 'rxjs/operators';
 
 // just an interface for type safety.
-interface Marker {
+class Marker {
   lat: number;
   lng: number;
   label?: string;
-  draggable: boolean;
+  draggable?: boolean;
+  constructor(lat, lng) {
+    this.lat = lat;
+    this.lng = lng;
+  }
 }
 
 @Component({
@@ -31,13 +36,19 @@ export class MapComponent implements OnInit {
   constructor(private afs: AngularFirestore) { }
 
   ngOnInit() {
+    console.log('init');
     this.pillarsCollection = this.afs.collection('data');
-    this.pillars = this.pillarsCollection.valueChanges((res) => {
-      this.markers.push(res);
-    });
-    this.pillars.subscribe((val) => {
-      this.markers.push();
-    })
+    this.pillars = this.pillarsCollection.valueChanges();
+    this.pillars.pipe(
+      flatMap((pillars: Pillar[]) => {
+        return pillars.map((value1 => value1.geometry.coordinates));
+      }),
+      tap((pillar) => {
+        this.markers.push(new Marker(pillar[0], pillar[1]));
+      }),
+      tap(() => console.log(this.markers))
+    ).subscribe();
+
   }
 }
 
