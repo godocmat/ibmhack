@@ -14,6 +14,7 @@ import { NzUploadModule, NzMessageModule } from 'ng-zorro-antd';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireModule} from '@angular/fire';
+import { MapComponent } from './pages/map/map.component'
 
 registerLocaleData(sk);
 
@@ -30,7 +31,8 @@ let firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    UploadComponent
+    UploadComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

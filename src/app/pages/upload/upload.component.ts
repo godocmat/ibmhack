@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UploadChangeParam, NzMessageService, UploadFile, UploadXHRArgs } from 'ng-zorro-antd';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {finalize, tap, map} from 'rxjs/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { async } from 'q';
@@ -34,7 +34,7 @@ export class UploadComponent implements OnInit {
               private storage: AngularFireStorage,
               private db: AngularFirestore) { }
 
-  customReq = (item: UploadXHRArgs) => {
+  customReq = (item: UploadXHRArgs): Subscription => {
 
 
     const path = `test/${Date.now()}_${item.name}`;
@@ -48,33 +48,19 @@ export class UploadComponent implements OnInit {
       // Progress monitoring
     this.percentage = this.task.percentageChanges();
 
-    this.task.snapshotChanges().pipe(
-      map(async () => {
+    return this.task.snapshotChanges().pipe(
+      finalize(async () => {
+        console.log('tusom');
         this.downloadURL = await ref.getDownloadURL().toPromise();
-      }),
-      tap((value) => {
+        console.log(this.downloadURL);
+        this.db.collection('files').add({downloadURL: this.downloadURL, path});
         this.http.post('http://localhost:3005/images/', {
           image: this.downloadURL
-        }).subscribe((val) => console.log('respone', val));
+        }, { responseType: 'text'}).subscribe((val) => console.log('respone', val), (err) => console.log('error', err.message));
       })
-      ).subscribe();
-    //     map(
-    //     finalize( async () =>  {
-    //       this.downloadURL = await ref.getDownloadURL().toPromise();
-
-    //       this.db.collection('files').add( { downloadURL: this.downloadURL, path }).finally(() => {
-    //         console.log('test');
-
-    //       });
-    //       return this.downloadURL
-    //     }),
-    //   )
-    // ),
-    // tap((tap) =>
-
-
-    
-
+      ).subscribe((res) => {
+      console.log(res);
+    });
 }
 
 

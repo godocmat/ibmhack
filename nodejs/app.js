@@ -91,6 +91,7 @@ let updateValue = singleImageRef.update({long: 34.344, lat: 35.222, state: 'dama
          .catch(err => {
              console.log('error:', err);
          });*/
+res.send('ok');
  });
 
 
