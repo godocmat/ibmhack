@@ -9,12 +9,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import sk from '@angular/common/locales/sk';
+import { UploadComponent } from './pages/upload/upload.component';
+import { NzUploadModule, NzMessageModule } from 'ng-zorro-antd'
 
 registerLocaleData(sk);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +25,9 @@ registerLocaleData(sk);
     NgZorroAntdModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NzUploadModule,
+    NzMessageModule
   ],
   providers: [{ provide: NZ_I18N, useValue: sk_SK }],
   bootstrap: [AppComponent]
