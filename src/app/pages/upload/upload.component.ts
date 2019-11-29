@@ -28,6 +28,10 @@ export class UploadComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL: string;
 
+  nodejsUrl = 'http://localhost:3005/images/';
+  javaUrl = 'http://147.232.191.144:8087/image/';
+  types = 'image/png,image/jpeg';
+
 
   constructor(private msg: NzMessageService,
               private http: HttpClient,
@@ -37,7 +41,7 @@ export class UploadComponent implements OnInit {
   customReq = (item: UploadXHRArgs): Subscription => {
 
 
-    const path = `test/${Date.now()}_${item.name}`;
+    const path = `test/${Date.now()}_${item.file.name}`;
 
       // Reference to storage bucket
     const ref = this.storage.ref(path);
@@ -48,15 +52,35 @@ export class UploadComponent implements OnInit {
       // Progress monitoring
     this.percentage = this.task.percentageChanges();
 
+
     return this.task.snapshotChanges().pipe(
       finalize(async () => {
         console.log('tusom');
         this.downloadURL = await ref.getDownloadURL().toPromise();
         console.log(this.downloadURL);
         this.db.collection('files').add({downloadURL: this.downloadURL, path});
-        this.http.post('http://localhost:3005/images/', {
+    /*    this.http.post('http://localhost:3005/images/', {
           image: this.downloadURL
-        }, { responseType: 'text'}).subscribe((val) => console.log('respone', val), (err) => console.log('error', err.message));
+        }, { responseType: 'text'}).subscribe((val) => {
+          console.log('respone', val)
+          this.msg.success("file uploaded successfuly");
+        }, (err) => {
+          console.log('error', err.message);
+          this.msg.error('file upload failed');
+        });
+      })
+      ).subscribe((res) => {
+      console.log(res);
+    }); */
+        this.http.post('http://147.232.191.144:8087/image/', {
+          download_Url: this.downloadURL
+        }, { responseType: 'text'}).subscribe((val) => {
+          console.log('respone', val);
+          this.msg.success('file uploaded successfuly');
+        }, (err) => {
+          console.log('error', err.message);
+          this.msg.error('file upload failed');
+        });
       })
       ).subscribe((res) => {
       console.log(res);
