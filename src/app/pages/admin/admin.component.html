@@ -1,1 +1,14 @@
-    admin wrks 
+<div class="timePicker">
+    <div class="row center-xs">
+
+        Zadajte dátumy odkedy a dokedy chcete zobraziť dané záznamy
+
+</div>
+<div class="row center-xs">
+    
+        <nz-range-picker nzFormat="dd.MM.yyyy" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)">
+        </nz-range-picker>
+
+</div>
+
+</div>

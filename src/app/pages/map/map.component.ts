@@ -11,10 +11,12 @@ class Marker {
   lng: number;
   label?: string;
   draggable?: boolean;
-  constructor(lat, lng, label?) {
+  imgArray?: string[] = [];
+  constructor(lat, lng, label?, imgArray?) {
     this.lat = lat;
     this.lng = lng;
     this.label = label;
+    this.imgArray = imgArray;
   }
 }
 
@@ -32,8 +34,10 @@ export class MapComponent implements OnInit {
   markers: Marker[] = [];
 
   // initial center position for the map
-  lat = 51.673858;
-  lng = 7.815982;
+  lat = 48.6759244780318;
+  lng = 21.3396421711475;
+  pilarImages = [];
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -54,10 +58,11 @@ export class MapComponent implements OnInit {
 
     this.getPillars().subscribe(value => {
       value.map(val => {
-        this.markers.push(new Marker(+val.coordinates[1], +val.coordinates[0], val.images == null ? '' : val.images.length.toString()))
+        // tslint:disable-next-line: max-line-length
+        this.markers.push(new Marker(+val.coordinates[1], +val.coordinates[0], val.images == null ? '' : val.images.length.toString(), val.images));
       });
     });
-    
+
     // console.log('init');
     // this.pillarsCollection = this.afs.collection('data');
     // this.pillars = this.pillarsCollection.valueChanges();
