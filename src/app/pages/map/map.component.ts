@@ -43,7 +43,7 @@ export class MapComponent implements OnInit {
             return pillars.map((value1 => value1.coordinates));
           }),
       tap((pillar) => {
-        this.markers.push(new Marker(pillar[0], pillar[1]));
+        this.markers.push(new Marker(pillar[1], pillar[0]));
       }),
       tap(() => console.log(this.markers))
     ).subscribe();
