@@ -73,7 +73,7 @@ export class UploadComponent implements OnInit {
       console.log(res);
     }); */
         this.http.post('http://147.232.191.144:8087/image/', {
-          download_Url: this.downloadURL
+          downloadUrl: this.downloadURL
         }, { responseType: 'text'}).subscribe((val) => {
           console.log('respone', val);
           this.msg.success('file uploaded successfuly');
