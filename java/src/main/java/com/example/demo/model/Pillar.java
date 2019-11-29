@@ -1,11 +1,14 @@
 package com.example.demo.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Data
 @Entity
 public class Pillar {
@@ -19,4 +22,39 @@ public class Pillar {
 
     @Column(name = "coordinates")
     private BigDecimal[] coordinates;
+
+    @Column(name = "images")
+    private String[] images;
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getEntityHandle() {
+    return EntityHandle;
+  }
+
+  public void setEntityHandle(String entityHandle) {
+    EntityHandle = entityHandle;
+  }
+
+  public BigDecimal[] getCoordinates() {
+    return coordinates;
+  }
+
+  public void setCoordinates(BigDecimal[] coordinates) {
+    this.coordinates = coordinates;
+  }
+
+  public String[] getImages() {
+    return images;
+  }
+
+  public void setImages(String[] images) {
+    this.images = images;
+  }
 }

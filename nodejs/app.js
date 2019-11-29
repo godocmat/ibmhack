@@ -8,9 +8,7 @@ var ExifImage = require('exif').ExifImage;
 const request = require('request');
 const fs = require('fs');
 const VisualRecognitionV3 = require('ibm-watson/visual-recognition/v3');
-const VisualRecognitionV4 = require('ibm-watson/visual-recognition/v4');
 const { IamAuthenticator } = require('ibm-watson/auth');
-const {Firestore} = require('@google-cloud/firestore');
 var bodyParser = require('body-parser');
 
 /*app.use(bodyParser.urlencoded({
@@ -18,32 +16,6 @@ var bodyParser = require('body-parser');
 }));*/
 app.use(bodyParser.json()); // for parsing application/json
 
-const db = new Firestore({
-    projectId: 'ftaciky-a27b6',
-    keyFilename: 'credentials.json',
-});
-let filesRef = db.collection('files');
-
-
-/**
- * Get all images from Firestore
- */
-// let allImages = filesRef.get()
-//     .then(snapshot => {
-//         snapshot.forEach(doc => {
-//             console.log(doc.id, '=>', doc.data());
-//         });
-//     })
-//     .catch(err => {
-//         console.log('Error getting documents', err);
-//     });
-
-/**
- * UPDATE IMAGE METADATA
- */
-let singleImageRef = filesRef.doc('1P5TCxkfAKQ9wpjJXStJ');
-
-let updateValue = singleImageRef.update({long: 34.344, lat: 35.222, state: 'damaged', createDate: new Date()});
 
 
 /**
@@ -71,26 +43,29 @@ let updateValue = singleImageRef.update({long: 34.344, lat: 35.222, state: 'dama
  * Endpoint for ANGULAR to retrieve IMAGE_URL
  */
  app.post('/images', (req, res) => {
-     //const image_url = req.body.im;
-	 console.log("body");
-	 console.log(req.body);
-	 console.log(req.body.image);
-	 //console.log(req);
-	 //console.log("image");
-	// console.log("req.body.image");
-/*     const classifyParams = {
-         imagesFile: fs.createReadStream(image_url),
-         owners: ['me'],
-         threshold: 0.6,
-     };
-     visualRecognition.classify(classifyParams)
-         .then(response => {
-             const classifiedImages = response.result;
-             console.log(JSON.stringify(classifiedImages, null, 2));
-         })
-         .catch(err => {
-             console.log('error:', err);
-         });*/
+   const visualRecognition = new VisualRecognitionV3({
+     version: '2019-02-21',
+     authenticator: new IamAuthenticator({
+       apikey: 'L2MM30I-6bzosYbrTMFeFXofHrpH--nWUN5KCrLZ8Uab',
+     }),
+     url: 'https://gateway-seo.watsonplatform.net/visual-recognition/api',
+   });
+
+   const classifyParams = {
+     imagesFile: fs.createReadStream(req.body.image),
+     owners: ['me'],
+     threshold: 0.6,
+   };
+
+   visualRecognition.classify(classifyParams)
+     .then(response => {
+       const classifiedImages = response.result;
+       console.log(JSON.stringify(classifiedImages, null, 2));
+     })
+     .catch(err => {
+       console.log('error:', err);
+     });
+
 res.send('ok');
  });
 
@@ -99,87 +74,7 @@ res.send('ok');
  * VisualRecog
  */
 var server = app.listen(3005, function () {
-    const visualRecognition = new VisualRecognitionV3({
-        version: '2019-02-21',
-        authenticator: new IamAuthenticator({
-            apikey: 'L2MM30I-6bzosYbrTMFeFXofHrpH--nWUN5KCrLZ8Uab',
-        }),
-        url: 'https://gateway-seo.watsonplatform.net/visual-recognition/api',
-    });
 
-    const visualRecognition4 = new VisualRecognitionV4({
-        version: '2019-02-11',
-        authenticator: new IamAuthenticator({
-            apikey: 'L2MM30I-6bzosYbrTMFeFXofHrpH--nWUN5KCrLZ8Uab',
-        }),
-        url: 'https://gateway-seo.watsonplatform.net/visual-recognition/api',
-    });
-	console.log("je to tam, bezime live na localhosce na " + server.address().port + "!!!!!");
-    const param = {
-        name: 'my-collection',
-        description: 'A description'
-    };
-
-    // visualRecognition4.createCollection(param)
-    //     .then(response => {
-    //         console.log(JSON.stringify(response.result, null, 2));
-    //     })
-    //     .catch(err => {
-    //         console.log('error: ', err);
-    //     });
-
-    const params = {
-        name : 'stlpyHackathon',
-        positiveExamples: {
-            first: fs.createReadStream('images/1.zip'),
-            secondOK: fs.createReadStream('images/2dobre.zip'),
-            secondBad: fs.createReadStream('images/2poskodene.zip'),
-            thirdOk: fs.createReadStream('images/3dobre.zip'),
-            thirdPoskodene: fs.createReadStream('images/3poskodene.zip'),
-            fourthOk: fs.createReadStream('images/4dobre.zip'),
-            five: fs.createReadStream('images/5.zip'),
-            six: fs.createReadStream('images/6.zip'),
-            seven: fs.createReadStream('images/7.zip'),
-            nine: fs.createReadStream('images/9.zip'),
-        }
-    };
-
-    const listparams = {
-        verbose: true,
-    };
-
-    // visualRecognition.listClassifiers(listparams)
-    //     .then(response => {
-    //         const classifiers = response.result;
-    //         console.log(JSON.stringify(classifiers,null,2));
-    //     })
-    //     .catch(err => {
-    //         console.log('error happened: ', err);
-    //     });
-
-    // visualRecognition.createClassifier(params)
-    //     .then(response => {
-    //         const classifier = response.result;
-    //         console.log(JSON.stringify(classifier,null,2));
-    //     })
-    //     .catch(err => {
-    //         console.log('error', err);
-    //     });
-
-    // const classifyParams = {
-    //     imagesFile: fs.createReadStream('074.jpg'),
-    //     owners: ['me'],
-    //     threshold: 0.6,
-    // };
-    //
-    // visualRecognition.classify(classifyParams)
-    //     .then(response => {
-    //         const classifiedImages = response.result;
-    //         console.log(JSON.stringify(classifiedImages, null, 2));
-    //     })
-    //     .catch(err => {
-    //         console.log('error:', err);
-    //     });
-})
+});
 
 

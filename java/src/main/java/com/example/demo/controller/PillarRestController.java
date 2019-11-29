@@ -1,14 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Image;
 import com.example.demo.model.Pillar;
 import com.example.demo.services.PillarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PillarRestController {
@@ -30,4 +29,14 @@ public class PillarRestController {
     public List<Pillar> createPillars(@RequestBody List<Pillar> pillars) {
         return pillarService.createPillars(pillars);
     }
+
+    @PostMapping("/pillars/analyze")
+    public void analyzePillar(@RequestBody Map<String, String> img_url) {
+      pillarService.analyzePillar(img_url);
+    }
+
+  @PutMapping("/pillar/pillarId")
+  public Pillar updatePillar(@PathVariable Long pillarId, @RequestBody Pillar pillar) {
+    return pillarService.updatePillar(pillar,pillarId);
+  }
 }

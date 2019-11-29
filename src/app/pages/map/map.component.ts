@@ -37,29 +37,11 @@ export class MapComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
-    console.log('test');
-    this.getPillars().pipe(
-      flatMap((pillars: Pillar[]) => {
-            return pillars.map((value1 => value1.coordinates));
-          }),
-      tap((pillar) => {
-        this.markers.push(new Marker(pillar[0], pillar[1]));
-      }),
-      tap(() => console.log(this.markers))
-    ).subscribe();
-    // console.log('init');
-    // this.pillarsCollection = this.afs.collection('data');
-    // this.pillars = this.pillarsCollection.valueChanges();
-    // this.pillars.pipe(
-    //   flatMap((pillars: Pillar[]) => {
-    //     return pillars.map((value1 => value1.geometry.coordinates));
-    //   }),
-    //   tap((pillar) => {
-    //     this.markers.push(new Marker(pillar[0], pillar[1]));
-    //   }),
-    //   tap(() => console.log(this.markers))
-    // ).subscribe();
-
+    this.getPillars().subscribe(value => {
+      value.map(val => {
+        this.markers.push(new Marker(+val.coordinates[0], +val.coordinates[1]));
+      });
+    });
   }
 
   getPillars(): Observable<Pillar[]> {
