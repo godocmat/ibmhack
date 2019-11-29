@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ImageService {
@@ -26,7 +25,7 @@ public class ImageService {
     return imageRepository.findById(imageId)
       .map(image1 -> {
         image1.setDate(image.getDate());
-        image1.setDownload_url(image.getDownload_url());
+        image1.setDownloadUrl(image.getDownloadUrl());
         image1.setLat(image.getLat());
         image1.setLng(image.getLng());
         return imageRepository.save(image1);
@@ -35,4 +34,5 @@ public class ImageService {
         return imageRepository.save(image);
       });
   }
+
 }

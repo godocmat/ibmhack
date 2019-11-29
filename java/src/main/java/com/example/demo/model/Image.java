@@ -22,13 +22,24 @@ public class Image {
   private Date date;
 
   @Column(name = "download_url")
-  private String download_url;
+  private String downloadUrl;
 
   @Column(name = "lat")
   private BigDecimal lat;
 
   @Column(name = "lng")
   private BigDecimal lng;
+
+  @Column(name = "is_corrupted")
+  private Boolean isCorrupted;
+
+  public Boolean getCorrupted() {
+    return isCorrupted;
+  }
+
+  public void setCorrupted(Boolean corrupted) {
+    isCorrupted = corrupted;
+  }
 
   public void setId(long id) {
     this.id = id;
@@ -38,8 +49,8 @@ public class Image {
     this.date = date;
   }
 
-  public void setDownload_url(String download_url) {
-    this.download_url = download_url;
+  public void setDownloadUrl(String downloadUrl) {
+    this.downloadUrl = downloadUrl;
   }
 
   public void setLat(BigDecimal lat) {
@@ -58,8 +69,8 @@ public class Image {
     return date;
   }
 
-  public String getDownload_url() {
-    return download_url;
+  public String getDownloadUrl() {
+    return downloadUrl;
   }
 
   public BigDecimal getLat() {

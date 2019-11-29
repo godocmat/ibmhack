@@ -26,6 +26,12 @@ public class Pillar {
     @Column(name = "images")
     private String[] images;
 
+
+  public Pillar(BigDecimal[] coordinates, String[] images) {
+    this.coordinates = coordinates;
+    this.images = images;
+  }
+
   public long getId() {
     return id;
   }
