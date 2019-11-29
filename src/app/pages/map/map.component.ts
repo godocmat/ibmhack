@@ -11,9 +11,10 @@ class Marker {
   lng: number;
   label?: string;
   draggable?: boolean;
-  constructor(lat, lng) {
+  constructor(lat, lng, label?) {
     this.lat = lat;
     this.lng = lng;
+    this.label = label;
   }
 }
 
@@ -37,16 +38,26 @@ export class MapComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
-    console.log('test');
+ /*   console.log('test');
     this.getPillars().pipe(
       flatMap((pillars: Pillar[]) => {
-            return pillars.map((value1 => value1.coordinates));
+        //this.pillars = pillars;
+        return pillars.map((value1 => value1.coordinates));
           }),
       tap((pillar) => {
-        this.markers.push(new Marker(pillar[1], pillar[0]));
+        this.markers.push(new Marker(pillar[1], pillar[0],));
       }),
       tap(() => console.log(this.markers))
     ).subscribe();
+*/
+
+
+    this.getPillars().subscribe(value => {
+      value.map(val => {
+        this.markers.push(new Marker(+val.coordinates[1], +val.coordinates[0], val.images == null ? '' : val.images.length.toString()))
+      });
+    });
+    
     // console.log('init');
     // this.pillarsCollection = this.afs.collection('data');
     // this.pillars = this.pillarsCollection.valueChanges();
